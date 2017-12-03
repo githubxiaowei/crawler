@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Sun Dec  3 15:05:33 2017
 
-This is a temporary script file.
+@author: https://github.com/githubxiaowei
 """
 
 import requests
 from lxml import html
 
-def save_html(url):
-    response = requests.get(url)
-    with open('download.html','w',encoding='utf8') as f:
-        f.write(str(response.content,'utf8'))
 
 def today_list():
     url = 'http://www.zimuzu.tv/'
@@ -23,26 +19,29 @@ def today_list():
     
     return td_list
 
-
+rss_list = []
+with open('reg_0',encoding='utf8')as f:
+    for line in f.readlines():
+        rss_list.append(int(line.split('/')[-1]))
 
 with open('resources.csv','w',encoding='utf8') as f:
-    f.write('url,description,filename,ed2k,magnet,pan,\n')
+    f.write('description,filename,ed2k,magnet,pan,\n')
 
-for p in range(1):
-    print(p)
+for p in rss_list:
     url = 'http://diaodiaode.me/rss/feed/' + str(p)
-    response = requests.get(url)
+    print(url)
+    response = requests.get(url,)
     selector = html.fromstring(response.content)
     
     resources = []
     for item in selector.xpath('//item'):
         info = {}
-        info['url'] = url
-        info['description'] = item.xpath('description/text()')
-        info['filename'] = item.xpath('title/text()')
-        info['ed2k'] = item.xpath('ed2k/text()')
-        info['magnet'] = item.xpath('magnet/text()')
-        info['pan'] = item.xpath('pan/text()')
+        #info['url'] = url
+        #info['description'] = item.xpath('description/text()')
+        info['filename'] = ' '.join(item.xpath('title/text()'))
+        info['ed2k'] = ' '.join(item.xpath('ed2k/text()'))
+        info['magnet'] = ' '.join(item.xpath('magnet/text()'))
+        info['pan'] = ' '.join(item.xpath('pan/text()'))
         resources.append(info)
 
     with open('resources.csv','a',encoding='utf8') as f:
