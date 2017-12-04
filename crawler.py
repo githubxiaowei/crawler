@@ -2,7 +2,7 @@ ng# -*- coding: utf-8 -*-
 """
 Created on Sat Dec  2 19:21:06 2017
 
-@author: Administrator
+@author: http://github.com/githubxiaowei
 """
 
 import requests
